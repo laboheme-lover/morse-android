@@ -1,5 +1,6 @@
 # v1.2.3 の形のタグを push すると、テストのあと署名した APK を作って Releases に載せる。
-# 署名の鍵は Secrets(ANDROID_KEYSTORE_BASE64 / ANDROID_KEYSTORE_PASSWORD / ANDROID_KEY_ALIAS)から取り出す
+# 署名の鍵は Secrets(ANDROID_KEYSTORE_BASE64 / ANDROID_KEYSTORE_PASSWORD)から取り出す。鍵の別名は秘密ではないのでここに書く
+# (Secrets に入れるとログの中の同じ文字列がすべて伏せられる)
 name: release
 
 on:
@@ -36,7 +37,7 @@ jobs:
       - name: Build and test
         env:
           MORSE_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          MORSE_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          MORSE_KEY_ALIAS: morse
         run: >
           ./gradlew testDebugUnitTest assembleRelease
           -PversionName=${{ steps.ver.outputs.name }} -PversionCode=${{ steps.ver.outputs.code }}

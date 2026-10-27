@@ -41,7 +41,7 @@ git tag v1.0.1
 git push origin v1.0.1
 ```
 
-署名の鍵は Git に入れず、GitHub の Secrets(`ANDROID_KEYSTORE_BASE64` / `ANDROID_KEYSTORE_PASSWORD` / `ANDROID_KEY_ALIAS`)に置いている。
+署名の鍵は Git に入れず、GitHub の Secrets(`ANDROID_KEYSTORE_BASE64` / `ANDROID_KEYSTORE_PASSWORD`。鍵の別名は morse)に置いている。
 鍵の元のファイルは `C:\Users\daizo\AndroidKeys` にある。なくすと、配布したアプリを上書きで更新できなくなるので控えを取っておくこと。
 
 Android Studio で組み立てた版(debug)と配布の版は署名が違うので、上書きでは入らない。入れ替えるときは先にアンインストールする。
