@@ -10,12 +10,27 @@ android {
         applicationId = "jp.daizo.morse"
         minSdk = 29
         targetSdk = 36
-        versionCode = 1
-        versionName = "1.0"
+        // 配布(GitHub Actions の release)ではタグから版を渡す。手元の組み立てでは 1 / "1.0"
+        versionCode = (project.findProperty("versionCode") as String?)?.toInt() ?: 1
+        versionName = (project.findProperty("versionName") as String?) ?: "1.0"
+    }
+
+    // 署名の鍵は Git に入れない。環境変数があるとき(GitHub Actions の Secrets)だけ release に署名する
+    val keystore = System.getenv("MORSE_KEYSTORE")
+    signingConfigs {
+        if (keystore != null) {
+            create("release") {
+                storeFile = file(keystore)
+                storePassword = System.getenv("MORSE_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("MORSE_KEY_ALIAS")
+                keyPassword = System.getenv("MORSE_KEYSTORE_PASSWORD")
+            }
+        }
     }
 
     buildTypes {
         release {
+            if (keystore != null) signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }

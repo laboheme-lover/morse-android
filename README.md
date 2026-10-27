@@ -30,3 +30,18 @@ $env:JAVA_HOME = "C:\Program Files\Android\Android Studio\jbr"
 ```
 
 `local.properties`(Android SDK の場所)は端末ごとに違うので、リポジトリには入れない。
+
+## 自動テストと配布(GitHub Actions)
+
+- `main` への push と Pull Request のたびに、組み立てと単体テストが動く(`.github/workflows/test.yml`)
+- `v1.2.3` の形のタグを push すると、署名した APK が Releases に載る(`.github/workflows/release.yml`)。版の番号はタグから付く(versionCode = 1×10000 + 2×100 + 3)
+
+```powershell
+git tag v1.0.1
+git push origin v1.0.1
+```
+
+署名の鍵は Git に入れず、GitHub の Secrets(`ANDROID_KEYSTORE_BASE64` / `ANDROID_KEYSTORE_PASSWORD` / `ANDROID_KEY_ALIAS`)に置いている。
+鍵の元のファイルは `C:\Users\daizo\AndroidKeys` にある。なくすと、配布したアプリを上書きで更新できなくなるので控えを取っておくこと。
+
+Android Studio で組み立てた版(debug)と配布の版は署名が違うので、上書きでは入らない。入れ替えるときは先にアンインストールする。
