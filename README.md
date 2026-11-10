@@ -1,6 +1,9 @@
 # モールス通信(Android)
 
 Android 端末どうしで、音と光のモールス信号(和文)を送受信するアプリ。
+APK は [Releases](https://github.com/laboheme-lover/morse-android/releases) から入れられる(Android 10 以上)。
+
+このリポジトリのコードと文書は、Claude Code(Anthropic の AI)に日本語で指示して作成した。
 PC で作った音のアプリ(morse-ai)・光のアプリ(light-morse-ai)と同じ符号表(65文字)を使う。
 
 ## できること
@@ -42,6 +45,10 @@ git push origin v1.0.1
 ```
 
 署名の鍵は Git に入れず、GitHub の Secrets(`ANDROID_KEYSTORE_BASE64` / `ANDROID_KEYSTORE_PASSWORD`。鍵の別名は morse)に置いている。
-鍵の元のファイルは `C:\Users\daizo\AndroidKeys` にある。なくすと、配布したアプリを上書きで更新できなくなるので控えを取っておくこと。
+鍵の元のファイルはリポジトリの外に保管している。なくすと、配布したアプリを上書きで更新できなくなる。
 
 Android Studio で組み立てた版(debug)と配布の版は署名が違うので、上書きでは入らない。入れ替えるときは先にアンインストールする。
+
+## ライセンス
+
+MIT ライセンス(`LICENSE`)。
